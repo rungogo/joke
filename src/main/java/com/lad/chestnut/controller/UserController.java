@@ -42,7 +42,7 @@ public class UserController {
     @IgnoreTokenValidate
     @GetMapping(value = "/loginSecurity")
     public ResponseData loginSecurity(@Validated LoginParam loginParam, BindingResult result) {
-        return userService.loginSecurity(loginParam);
+        return userService.login(loginParam);
     }
 
     @WebLogController(description = "获取用户信息")
