@@ -9,6 +9,7 @@ import com.lad.chestnut.pojo.param.LoginParam;
 import com.lad.chestnut.service.UserService;
 import com.lad.chestnut.util.EncryptDecode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -41,6 +42,16 @@ public class UserServiceImpl implements UserService {
         Map<String, String> map = new HashMap<>(2);
         map.put("token", encryptDecode.encryptToken(token));
         return new ResponseData(ResponseEnum.SUCCESS, map);
+    }
+
+    @Override
+    public ResponseData loginSecurity(LoginParam loginParam) {
+        org.springframework.security.core.userdetails.User user = new org.springframework.security.core.userdetails.User(loginParam.getUserName(), "222", AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+//        User user = new User();
+//        user.setUserName("111");
+//        user
+//        return null;
+        return new ResponseData(user);
     }
 
     @Override

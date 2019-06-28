@@ -38,6 +38,12 @@ public class UserController {
     public ResponseData login(@RequestBody @Validated LoginParam loginParam, BindingResult result) {
         return userService.login(loginParam);
     }
+    @WebLogController(description = "用户登录")
+    @IgnoreTokenValidate
+    @GetMapping(value = "/loginSecurity")
+    public ResponseData loginSecurity(@Validated LoginParam loginParam, BindingResult result) {
+        return userService.loginSecurity(loginParam);
+    }
 
     @WebLogController(description = "获取用户信息")
     @GetMapping(value = "getUserInfo")

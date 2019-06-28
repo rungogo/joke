@@ -31,6 +31,11 @@ public class ResponseData<T> {
         this.content = content;
     }
 
+    public ResponseData(T content) {
+        this(ResponseEnum.SUCCESS);
+        this.content = content;
+    }
+
     public ResponseData(ResponseEnum responseEnum) {
         this.code = responseEnum.getCode();
         this.msg = responseEnum.getMsg();

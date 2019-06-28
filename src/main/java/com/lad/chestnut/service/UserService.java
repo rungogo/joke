@@ -19,6 +19,8 @@ public interface UserService {
      */
     ResponseData login(LoginParam loginParam);
 
+    ResponseData loginSecurity(LoginParam loginParam);
+
     /**
      * 用户退出
      * @param token
