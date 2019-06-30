@@ -3,6 +3,7 @@ package com.lad.chestnut.service.impl;
 import com.lad.chestnut.common.ResponseData;
 import com.lad.chestnut.common.ResponseEnum;
 import com.lad.chestnut.common.Token;
+import com.lad.chestnut.configuration.BusinessException;
 import com.lad.chestnut.dao.UserDao;
 import com.lad.chestnut.pojo.model.User;
 import com.lad.chestnut.pojo.param.LoginParam;
@@ -12,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.security.RolesAllowed;
@@ -67,5 +70,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userDao.getUserByUsername(username).orElse(null);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userDao.getUserByUsername(s).orElseThrow(() -> new BusinessException(ResponseEnum.NO_FIND_USER));
     }
 }

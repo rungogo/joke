@@ -19,7 +19,11 @@ public enum ResponseEnum {
     NOT_LOGIN(1001, "未登录！"),
     TOKEN_EXPIRED(1002, "Token已过期！"),
     NO_FIND_USER(1003, "未找到该账号！"),
-    LOGIN_FAILURE_USERNAME_OR_PASSWORD_WRONG(1004, "登陆失败，用户米或密码错误，请重新登陆！"),
+    LOGIN_FAILURE_USERNAME_OR_PASSWORD_WRONG(1004, "用户名或密码错误"),
+    ACCOUNT_LOCKED(1005, "账户被锁定，请联系管理员!"),
+    PASSWORD_AGING(1006, "密码过期，请联系管理员!"),
+    OVERDUE_ACCOUNT(1007, "账户过期，请联系管理员!"),
+    ACCOUNT_DISABLED(1008, "账户被禁用，请联系管理员!"),
 
 
     /**

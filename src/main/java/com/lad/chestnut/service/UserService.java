@@ -4,6 +4,7 @@ import com.lad.chestnut.common.ResponseData;
 import com.lad.chestnut.common.Token;
 import com.lad.chestnut.pojo.model.User;
 import com.lad.chestnut.pojo.param.LoginParam;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * 用户service
@@ -11,7 +12,7 @@ import com.lad.chestnut.pojo.param.LoginParam;
  * @author lad
  * @date 2019/4/29
  */
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     /**
      * 用户登陆
