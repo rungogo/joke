@@ -11,7 +11,7 @@ public class Token {
     /**
      * 用户名
      */
-    private String userName;
+    private String username;
 
     /**
      * 失效时间

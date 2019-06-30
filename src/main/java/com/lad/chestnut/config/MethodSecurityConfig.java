@@ -30,8 +30,8 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select user_name, password, enabled from user where user_name = ?")
-                .authoritiesByUsernameQuery("select user_name, 'ROLE_USER' from user where user_name = ?");
+                .usersByUsernameQuery("select username, password, enabled from user where username = ?")
+                .authoritiesByUsernameQuery("select username, 'ROLE_USER' from user where username = ?");
     }
 
 }

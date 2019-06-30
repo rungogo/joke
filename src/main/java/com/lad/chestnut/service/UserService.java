@@ -2,6 +2,7 @@ package com.lad.chestnut.service;
 
 import com.lad.chestnut.common.ResponseData;
 import com.lad.chestnut.common.Token;
+import com.lad.chestnut.pojo.model.User;
 import com.lad.chestnut.pojo.param.LoginParam;
 
 /**
@@ -33,4 +34,6 @@ public interface UserService {
      * @return
      */
     ResponseData getUserInfo(Token token);
+
+    User findByUsername(String username);
 }

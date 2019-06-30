@@ -14,16 +14,16 @@ import java.util.Optional;
 public interface UserDao extends JpaRepository<User, Integer> {
     /**
      * 根据用户名查询用户信息
-     * @param userName 用户名
+     * @param username 用户名
      * @return
      */
-    Optional<User> getUserByUserName(String userName);
+    Optional<User> getUserByUsername(String username);
 
     /**
      * 根据用户名和密码查询用户信息
-     * @param userName 用户名
+     * @param username 用户名
      * @param password 密码
      * @return
      */
-    Optional<User> getUserByUserNameAndPassword(String userName, String password);
+    Optional<User> getUserByUsernameAndPassword(String username, String password);
 }

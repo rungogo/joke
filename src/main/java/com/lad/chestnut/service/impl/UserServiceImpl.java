@@ -38,12 +38,12 @@ public class UserServiceImpl implements UserService {
     @RolesAllowed("ROLE_ADMIN")
     @Override
     public ResponseData login(LoginParam loginParam) {
-        Optional<User> optionalUser = userDao.getUserByUserNameAndPassword(loginParam.getUserName(), loginParam.getPassword());
+        Optional<User> optionalUser = userDao.getUserByUsernameAndPassword(loginParam.getUsername(), loginParam.getPassword());
         if (!optionalUser.isPresent()) {
             return new ResponseData(ResponseEnum.LOGIN_FAILURE_USERNAME_OR_PASSWORD_WRONG);
         }
         Token token = new Token();
-        token.setUserName(loginParam.getUserName());
+        token.setUsername(loginParam.getUsername());
         token.setExpireTime(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
         Map<String, String> map = new HashMap<>(2);
         map.put("token", encryptDecode.encryptToken(token));
@@ -57,10 +57,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseData getUserInfo(Token token) {
-        Optional<User> optionalUser = userDao.getUserByUserName(token.getUserName());
+        Optional<User> optionalUser = userDao.getUserByUsername(token.getUsername());
         if (!optionalUser.isPresent()) {
             return new ResponseData(ResponseEnum.NO_FIND_USER);
         }
         return new ResponseData(ResponseEnum.SUCCESS, optionalUser.get());
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userDao.getUserByUsername(username).orElse(null);
     }
 }

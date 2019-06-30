@@ -118,7 +118,7 @@ public class RequestAspect {
         if (System.currentTimeMillis() > token.getExpireTime()) {
             throw new BusinessException(ResponseEnum.TOKEN_EXPIRED);
         }
-        Optional<User> optionalUser = userDao.getUserByUserName(token.getUserName());
+        Optional<User> optionalUser = userDao.getUserByUsername(token.getUsername());
         User user = optionalUser.orElseThrow(() -> new BusinessException(ResponseEnum.NO_FIND_USER));
         LOGGER.info("User Info          :{}", user);
         return token;

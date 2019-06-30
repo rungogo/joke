@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class LoginParam {
     @NotNull(message = "登陆名不能为空！")
-    private String userName;
+    private String username;
     @NotNull(message = "密码不能为空！")
     private String password;
 }

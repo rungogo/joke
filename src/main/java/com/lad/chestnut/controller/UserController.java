@@ -3,6 +3,7 @@ package com.lad.chestnut.controller;
 import com.lad.chestnut.annotation.IgnoreTokenValidate;
 import com.lad.chestnut.annotation.WebLogController;
 import com.lad.chestnut.common.ResponseData;
+import com.lad.chestnut.common.ResponseEnum;
 import com.lad.chestnut.common.Token;
 import com.lad.chestnut.pojo.param.LoginParam;
 import com.lad.chestnut.service.UserService;
@@ -32,7 +33,7 @@ public class UserController {
      */
     @WebLogController(description = "用户登录")
     @IgnoreTokenValidate
-    @PostMapping(value = "/login1")
+    @PostMapping(value = "/login")
     public ResponseData login(@RequestBody @Validated LoginParam loginParam, BindingResult result) {
         return userService.login(loginParam);
     }
@@ -47,5 +48,10 @@ public class UserController {
     @GetMapping(value = "/getUserInfo")
     public ResponseData getUserInfo(Token token) {
         return userService.getUserInfo(token);
+    }
+
+    @RequestMapping("/login_p")
+    public ResponseData login() {
+        return new ResponseData(ResponseEnum.NOT_LOGIN);
     }
 }
