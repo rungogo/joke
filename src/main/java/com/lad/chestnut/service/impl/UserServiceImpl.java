@@ -11,8 +11,10 @@ import com.lad.chestnut.util.EncryptDecode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @RolesAllowed("ROLE_ADMIN")
     @Override
     public ResponseData login(LoginParam loginParam) {
         Optional<User> optionalUser = userDao.getUserByUserNameAndPassword(loginParam.getUserName(), loginParam.getPassword());

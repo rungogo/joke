@@ -6,6 +6,7 @@ import com.lad.chestnut.common.ResponseEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -35,6 +36,14 @@ public class ExceptionControllerAdvice {
     public ResponseData businessExceptionHandler(BusinessException e, HttpServletRequest request) {
         ResponseData responseData = new ResponseData(e.getResultInfo());
         LOGGER.error("{},result:{}", request.getServletPath(), JSONObject.toJSONString(responseData), e);
+        return responseData;
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseData accessDeniedExceptionHandler(Exception e, HttpServletRequest request) {
+        ResponseData responseData = new ResponseData(ResponseEnum.ACCESS_DENIED);
+        String uri = request.getRequestURI();
+        LOGGER.error("{},result:{}", uri, JSONObject.toJSONString(responseData), e);
         return responseData;
     }
 

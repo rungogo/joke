@@ -14,11 +14,13 @@ public enum ResponseEnum {
     SUCCESS(0, "成功！"),
     FAIL(1, "失败！"),
     PARAMETER_ERROR(2, "参数错误！"),
+    ACCESS_DENIED(3, "没有权限，不允许访问"),
 
     NOT_LOGIN(1001, "未登录！"),
     TOKEN_EXPIRED(1002, "Token已过期！"),
     NO_FIND_USER(1003, "未找到该账号！"),
     LOGIN_FAILURE_USERNAME_OR_PASSWORD_WRONG(1004, "登陆失败，用户米或密码错误，请重新登陆！"),
+
 
     /**
      * 系统异常
