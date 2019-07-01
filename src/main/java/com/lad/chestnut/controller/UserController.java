@@ -49,9 +49,4 @@ public class UserController {
     public ResponseData getUserInfo(Token token) {
         return userService.getUserInfo(token);
     }
-
-    @RequestMapping("/login_p")
-    public ResponseData login() {
-        return new ResponseData(ResponseEnum.NOT_LOGIN);
-    }
 }
