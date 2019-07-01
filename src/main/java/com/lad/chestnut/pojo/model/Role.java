@@ -27,6 +27,6 @@ public class Role {
     /**
      * 角色名中文名
      */
-    @Column(name = "nameZh")
+    @Column(name = "name_zh")
     private String nameZh;
 }

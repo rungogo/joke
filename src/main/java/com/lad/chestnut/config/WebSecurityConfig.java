@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lad.chestnut.common.ResponseData;
 import com.lad.chestnut.common.ResponseEnum;
 import com.lad.chestnut.common.Token;
+import com.lad.chestnut.config.CustomMetadataSource;
+import com.lad.chestnut.config.UrlAccessDecisionManager;
 import com.lad.chestnut.pojo.model.User;
 import com.lad.chestnut.service.UserService;
 import com.lad.chestnut.util.EncryptDecode;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
@@ -61,6 +65,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private EncryptDecode encryptDecode;
 
+    @Autowired
+    CustomMetadataSource metadataSource;
+
+    @Autowired
+    UrlAccessDecisionManager urlAccessDecisionManager;
+
     /**
      *
      * @Description: 通过重载，配置Spring Security的Filer链
@@ -73,7 +83,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()                       //  定义当需要用户登录时候，转到的登录页面
+        http.authorizeRequests()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(metadataSource);
+                        o.setAccessDecisionManager(urlAccessDecisionManager);
+                        return o;
+                    }
+                })
+                .and()
+                .formLogin()                       //  定义当需要用户登录时候，转到的登录页面
                 .successHandler((req, resp, auth) ->{
                     resp.setContentType("application/json;charset=utf-8");
                     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -128,10 +148,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()                // 定义哪些URL需要被保护、哪些不需要被保护
                 .antMatchers("/user/login")
                 .authenticated()                    // 执行请9求时必须以登录了应用
-                .antMatchers(HttpMethod.GET, "/user/loginSecurity")
-                .hasAuthority("ROLE_USER")          // 具备的访问权限
-                .anyRequest()                       // 任何请求,登录后可以访问
-                .permitAll()                       // 允许请求没有任何安全限制
+//                .antMatchers(HttpMethod.GET, "/user/loginSecurity")
+//                .hasAuthority("ROLE_manager")          // 具备的访问权限
+//                .anyRequest()                       // 任何请求,登录后可以访问
+//                .permitAll()                       // 允许请求没有任何安全限制
                 .and()
                 .csrf().disable()
                 .rememberMe();

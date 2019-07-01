@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @RolesAllowed("ROLE_ADMIN")
+//    @RolesAllowed("ROLE_ADMIN")
     @Override
     public ResponseData login(LoginParam loginParam) {
         Optional<User> optionalUser = userDao.getUserByUsernameAndPassword(loginParam.getUsername(), loginParam.getPassword());

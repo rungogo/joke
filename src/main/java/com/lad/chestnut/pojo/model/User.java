@@ -2,11 +2,14 @@ package com.lad.chestnut.pojo.model;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 用户
@@ -37,9 +40,19 @@ public class User implements UserDetails {
     @Column(name = "status")
     private Boolean status;
 
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", //中间表名字
+            joinColumns = @JoinColumn(name="uid",referencedColumnName = "id"), //这行配置本表（MENU_ITEM）与中间表对应关系
+            inverseJoinColumns = @JoinColumn(name = "rid",referencedColumnName = "id"))//这行配置 中间表另一字段与对应表关联关系
+    private List<Role> roles;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return authorities;
     }
 
     @Override
