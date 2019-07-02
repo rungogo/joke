@@ -47,6 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UrlAccessDecisionManager urlAccessDecisionManager;
 
+    @Autowired
+    AuthenticationAccessDeniedHandler deniedHandler;
+
     /**
      *
      * @Description: 通过重载，配置Spring Security的Filer链
@@ -130,7 +133,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll()                       // 允许请求没有任何安全限制
                 .and()
                 .csrf().disable()
-                .rememberMe();
+                .exceptionHandling().accessDeniedHandler(deniedHandler); //
     }
 
     /**
