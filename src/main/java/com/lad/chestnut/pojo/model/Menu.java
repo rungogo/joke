@@ -36,16 +36,20 @@ public class Menu implements Serializable {
     @Column(name = "parent_id")
     private Integer parentId;
 
+    /**
+     * menu_role:中间表名字
+     * joinColumns:这行配置本表与中间表对应关系
+     * inverseJoinColumns:这行配置中间表另一字段与对应表关联关系
+     */
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "menu_role", //中间表名字
-                joinColumns = @JoinColumn(name="mid",referencedColumnName = "id"), //这行配置本表（MENU_ITEM）与中间表对应关系
-                inverseJoinColumns = @JoinColumn(name = "rid",referencedColumnName = "id"))//这行配置 中间表另一字段与对应表关联关系
+    @JoinTable(name = "menu_role",
+            joinColumns = @JoinColumn(name = "mid", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "rid", referencedColumnName = "id"))
     private List<Role> roles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="parent_id")
     private List<Menu> children;
-
 
     @ManyToOne
     @JoinColumn(name="parent_id",insertable=false,updatable=false)

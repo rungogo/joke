@@ -36,5 +36,11 @@ public interface UserService extends UserDetailsService {
      */
     ResponseData getUserInfo(Token token);
 
-    User findByUsername(String username);
+    /**
+     * 保存用户
+     *
+     * @param user
+     * @return
+     */
+    User save(User user);
 }
