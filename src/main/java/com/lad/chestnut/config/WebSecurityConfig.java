@@ -1,63 +1,39 @@
-package com.lad.chestnut.security;
+package com.lad.chestnut.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lad.chestnut.common.ResponseData;
 import com.lad.chestnut.common.ResponseEnum;
 import com.lad.chestnut.common.Token;
-import com.lad.chestnut.config.CustomMetadataSource;
-import com.lad.chestnut.config.UrlAccessDecisionManager;
 import com.lad.chestnut.pojo.model.User;
 import com.lad.chestnut.service.UserService;
 import com.lad.chestnut.util.EncryptDecode;
-import org.apache.http.protocol.RequestDate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 保护web应用
  *
- * @Description: 保护web应用
- *
- * @auther: lad
- * @date: 9:34 2019/6/30
- * @param:
- * @return:
- *
+ * @author lad
+ * @date 2019/7/2
  */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     private UserService userService;
@@ -170,11 +146,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication()
-//                .dataSource(dataSource)
-//                .usersByUsernameQuery("select username, password, enabled from user where username = ?")
-//                .authoritiesByUsernameQuery("select username, 'ROLE_USER' from user where username = ?")
-//        .passwordEncoder(new BCryptPasswordEncoder());
         auth.userDetailsService(userService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }

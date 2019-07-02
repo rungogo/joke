@@ -13,7 +13,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * Created by sang on 2017/12/28.
+ * @author lad
+ * @date 2019/7/1
  */
 @Component
 public class UrlAccessDecisionManager implements AccessDecisionManager {
@@ -28,8 +29,9 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
             if ("ROLE_LOGIN".equals(needRole)) {
                 if (auth instanceof AnonymousAuthenticationToken) {
                     throw new BadCredentialsException("未登录");
-                } else
+                } else {
                     return;
+                }
             }
             //当前用户所具有的权限
             Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();

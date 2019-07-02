@@ -1,4 +1,4 @@
-package com.lad.chestnut.security;
+package com.lad.chestnut.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +9,10 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 import javax.sql.DataSource;
 
 /**
+ * 保护方法应用
  *
- * @Description: 保护方法应用
- *
- * @auther: lad
- * @date: 9:33 2019/6/30
- * @param:
- * @return:
- *
+ * @author lad
+ * @date 2019/7/2
  */
 @Configuration
 @EnableGlobalMethodSecurity(jsr250Enabled = true)

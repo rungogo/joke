@@ -15,7 +15,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/28.
+ * @author lad
+ * @date 2019/7/2
  */
 @Component
 public class CustomMetadataSource implements FilterInvocationSecurityMetadataSource {
