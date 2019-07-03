@@ -24,6 +24,7 @@ public enum ResponseEnum {
     PASSWORD_AGING(1006, "密码过期，请联系管理员!"),
     OVERDUE_ACCOUNT(1007, "账户过期，请联系管理员!"),
     ACCOUNT_DISABLED(1008, "账户被禁用，请联系管理员!"),
+    PASSWORD_INCONSISTENCY(1009, "密码不一致,请重新输入!"),
 
 
     /**

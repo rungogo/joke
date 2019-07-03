@@ -9,6 +9,7 @@ import com.lad.chestnut.service.UserService;
 import com.lad.chestnut.util.EncryptDecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -62,18 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                        o.setSecurityMetadataSource(metadataSource);
-                        o.setAccessDecisionManager(urlAccessDecisionManager);
-                        return o;
-                    }
-                })
-                .and()
+        http
                 .formLogin()                       //  定义当需要用户登录时候，转到的登录页面
-                .successHandler((req, resp, auth) ->{
+                .successHandler((req, resp, auth) -> {
                     resp.setContentType("application/json;charset=utf-8");
                     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                     Token token = new Token();
@@ -90,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .failureHandler((req, resp, e) -> {
                     resp.setContentType("application/json;charset=utf-8");
-                   ResponseData responseData;
+                    ResponseData responseData;
                     if (e instanceof BadCredentialsException || e instanceof UsernameNotFoundException) {
                         responseData = new ResponseData(ResponseEnum.LOGIN_FAILURE_USERNAME_OR_PASSWORD_WRONG);
                     } else if (e instanceof LockedException) {
@@ -123,17 +115,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     out.flush();
                     out.close();
                 })
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(metadataSource);
+                        o.setAccessDecisionManager(urlAccessDecisionManager);
+                        return o;
+                    }
+                })
                 .and()
-                .authorizeRequests()                // 定义哪些URL需要被保护、哪些不需要被保护
-                .antMatchers("/user/login")
-                .authenticated()                    // 执行请9求时必须以登录了应用
-//                .antMatchers(HttpMethod.GET, "/user/loginSecurity")
-//                .hasAuthority("ROLE_manager")          // 具备的访问权限
-//                .anyRequest()                       // 任何请求,登录后可以访问
-//                .permitAll()                       // 允许请求没有任何安全限制
+                .authorizeRequests() // 定义哪些URL需要被保护、哪些不需要被保护
+                .antMatchers("/user/signIn").permitAll()                       // 允许请求没有任何安全限制
+                .antMatchers("/user/loginSecurity").permitAll()                       // 允许请求没有任何安全限制
+                .anyRequest().authenticated()                    // 执行请求时必须以登录了应用
                 .and()
                 .csrf().disable()
-                .exceptionHandling().accessDeniedHandler(deniedHandler); //
+                .exceptionHandling().accessDeniedHandler(deniedHandler);
     }
 
     /**
@@ -149,7 +146,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
-                .passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
     }
 }

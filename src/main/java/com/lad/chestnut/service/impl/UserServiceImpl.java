@@ -4,23 +4,23 @@ import com.lad.chestnut.common.ResponseData;
 import com.lad.chestnut.common.ResponseEnum;
 import com.lad.chestnut.common.Token;
 import com.lad.chestnut.configuration.BusinessException;
+import com.lad.chestnut.constant.DeleteStatusEnum;
 import com.lad.chestnut.dao.UserDao;
 import com.lad.chestnut.pojo.model.User;
 import com.lad.chestnut.pojo.param.LoginParam;
+import com.lad.chestnut.pojo.param.SignInParam;
 import com.lad.chestnut.service.UserService;
 import com.lad.chestnut.util.EncryptDecode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.security.RolesAllowed;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * @author lad
@@ -68,8 +68,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) {
-        return null;
+    public User save(SignInParam signInParam) {
+        User user = new User();
+        user.setUsername(signInParam.getUsername());
+        user.setPassword(new BCryptPasswordEncoder().encode(signInParam.getPassword1()));
+        user.setCreateTime(LocalDateTime.now());
+        user.setEnabled(true);
+        user.setStatus(false);
+        return userDao.save(user);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.lad.chestnut.common.ResponseData;
 import com.lad.chestnut.common.Token;
 import com.lad.chestnut.pojo.model.User;
 import com.lad.chestnut.pojo.param.LoginParam;
+import com.lad.chestnut.pojo.param.SignInParam;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -39,8 +40,8 @@ public interface UserService extends UserDetailsService {
     /**
      * 保存用户
      *
-     * @param user
+     * @param signInParam
      * @return
      */
-    User save(User user);
+    User save(SignInParam signInParam);
 }
