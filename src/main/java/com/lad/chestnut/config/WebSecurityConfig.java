@@ -131,6 +131,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/signIn").authenticated()
                 .antMatchers("/user/test1").permitAll()
                 .antMatchers("/user/test2").authenticated()
+                .antMatchers("/user/test/test1").permitAll()
+                .antMatchers("/user/test/test2").authenticated()
                 .antMatchers("/user/loginSecurity").permitAll()
                 // 执行请求时必须以登录了应用
                 .anyRequest()
