@@ -115,6 +115,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     out.flush();
                     out.close();
                 })
+                .permitAll()
+                .and()
+                // 定义哪些URL需要被保护、哪些不需要被保护
+                .authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
@@ -123,11 +127,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return o;
                     }
                 })
-                .and()
-                .authorizeRequests() // 定义哪些URL需要被保护、哪些不需要被保护
-                .antMatchers("/user/signIn").permitAll()                       // 允许请求没有任何安全限制
-                .antMatchers("/user/loginSecurity").permitAll()                       // 允许请求没有任何安全限制
-                .anyRequest().authenticated()                    // 执行请求时必须以登录了应用
+                // 允许请求没有任何安全限制
+                .antMatchers("/user/signIn").authenticated()
+                .antMatchers("/user/test1").permitAll()
+                .antMatchers("/user/test2").authenticated()
+                .antMatchers("/user/loginSecurity").permitAll()
+                // 执行请求时必须以登录了应用
+                .anyRequest()
+                // 所有请求
+                .authenticated()
                 .and()
                 .csrf().disable()
                 .exceptionHandling().accessDeniedHandler(deniedHandler);

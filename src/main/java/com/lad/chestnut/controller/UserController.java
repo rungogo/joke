@@ -28,6 +28,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @WebLogController(description = "测试1")
+    @IgnoreTokenValidate
+    @GetMapping(value = "/test1")
+    public ResponseData test1() {
+        return ResponseData.success();
+    }
+
+
+    @WebLogController(description = "测试2")
+    @IgnoreTokenValidate
+    @GetMapping(value = "/test2")
+    public ResponseData test2() {
+        return ResponseData.success();
+    }
+
+
     /**
      * 登陆
      * @param loginParam
