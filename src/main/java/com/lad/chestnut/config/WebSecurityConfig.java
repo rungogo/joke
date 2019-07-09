@@ -7,21 +7,19 @@ import com.lad.chestnut.common.Token;
 import com.lad.chestnut.pojo.model.User;
 import com.lad.chestnut.service.UserService;
 import com.lad.chestnut.util.EncryptDecode;
+import com.lad.chestnut.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
-import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()                       //  定义当需要用户登录时候，转到的登录页面
                 .successHandler((req, resp, auth) -> {
                     resp.setContentType("application/json;charset=utf-8");
-                    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                    User user = UserUtils.getCurrentHr();
                     Token token = new Token();
                     token.setUsername(user.getUsername());
                     token.setExpireTime(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
@@ -128,16 +126,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 // 允许请求没有任何安全限制
-                .antMatchers("/user/signIn").authenticated()
-                .antMatchers("/user/test1").permitAll()
-                .antMatchers("/user/test2").authenticated()
-                .antMatchers("/user/test/test1").permitAll()
-                .antMatchers("/user/test/test2").authenticated()
-                .antMatchers("/user/loginSecurity").permitAll()
-                // 执行请求时必须以登录了应用
-                .anyRequest()
-                // 所有请求
-                .authenticated()
+//                .antMatchers("/user/signIn").authenticated()
+//                .antMatchers("/user/test1").permitAll()
+//                .antMatchers("/user/test2").authenticated()
+//                .antMatchers("/menu/test1").permitAll()
+//                .antMatchers("/menu/test2").authenticated()
+//                .antMatchers("/user/loginSecurity").permitAll()
+//                // 执行请求时必须以登录了应用
+//                .anyRequest()
+//                // 所有请求
+//                .authenticated()
                 .and()
                 .csrf().disable()
                 .exceptionHandling().accessDeniedHandler(deniedHandler);
