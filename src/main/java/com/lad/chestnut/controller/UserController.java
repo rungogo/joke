@@ -36,7 +36,7 @@ public class UserController {
     }
 
 
-    @WebLogController(description = "测试2 ")
+    @WebLogController(description = "测试2")
     @IgnoreTokenValidate
     @GetMapping(value = "/test2")
     public ResponseData test2() {
