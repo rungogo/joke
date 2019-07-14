@@ -1,11 +1,9 @@
 package com.lad.chestnut.dao;
 
 import com.lad.chestnut.pojo.model.Menu;
-import com.lad.chestnut.pojo.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 
 /**
@@ -13,5 +11,5 @@ import java.util.List;
  * @date 2019/7/1
  */
 @Repository
-public interface MenuDao extends JpaRepository<Menu, Integer> {
+public interface MenuDao extends JpaRepository<Menu, Integer>, JpaSpecificationExecutor<Menu> {
 }

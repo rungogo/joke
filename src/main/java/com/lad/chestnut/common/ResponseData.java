@@ -21,8 +21,10 @@ public class ResponseData<T> {
         return msg;
     }
 
-    public Object getContent() {
+    public T getContent() {
         return content;
+    }
+    public ResponseData() {
     }
 
     public ResponseData(ResponseEnum responseEnum, T content) {

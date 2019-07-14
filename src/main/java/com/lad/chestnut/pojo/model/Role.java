@@ -3,6 +3,7 @@ package com.lad.chestnut.pojo.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author lad
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "role")
 @Data
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

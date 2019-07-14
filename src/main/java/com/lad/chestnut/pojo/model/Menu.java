@@ -1,7 +1,9 @@
 package com.lad.chestnut.pojo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -55,6 +57,7 @@ public class Menu implements Serializable {
     @JoinColumn(name="parent_id",insertable=false,updatable=false)
     private Menu parent;
 
+    @JsonBackReference
     public Menu getParent() {
         return parent;
     }
@@ -63,6 +66,7 @@ public class Menu implements Serializable {
         this.parent = parent;
     }
 
+    @JsonManagedReference
     public List<Menu> getChildren() {
         return children;
     }
